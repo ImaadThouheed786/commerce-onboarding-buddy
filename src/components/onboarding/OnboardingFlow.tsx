@@ -22,14 +22,11 @@ export const OnboardingFlow = () => {
     businessId?: string;
     authMetadata?: Record<string, unknown>;
   }) => {
-    setLoginData(data);
-
-    if (data.businessId) {
-      setBusinessId(data.businessId);
-    }
-
-    // TEMPORARY: For UI testing, always set telegram_bot_token on login
-    setTelegramBotToken('mock-telegram-bot-token');
+    // Batch all login data in a single state update
+    setLoginData({
+      ...data,
+      telegramBotToken: 'mock-telegram-bot-token', // TEMPORARY: for UI testing
+    });
   };
 
   const handleIngestionSuccess = (uploadBatchId: string) => {
