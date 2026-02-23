@@ -33,6 +33,25 @@ interface QueryResponse {
   sources?: string[];
 }
 
+interface OrdersRequest {
+  business_id: string;
+}
+
+interface OrdersResponse {
+  business_id: string;
+  count: number;
+  orders: any[];
+}
+
+interface UpdateOrderStatusRequest {
+  business_id: string;
+  order_id: string;
+}
+
+interface UpdateOrderStatusResponse {
+  success: boolean;
+}
+
 // Simulate network delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -133,5 +152,62 @@ export const api = {
 
     return response.json();
     */
+  },
+
+  async getOrders(data: OrdersRequest): Promise<OrdersResponse> {
+    await delay(1000);
+
+    console.log('Mock getOrders:', data.business_id);
+    return {
+      business_id: data.business_id,
+      count: 1,
+      orders: [
+        {
+          business_id: data.business_id,
+          thread_id: '785862166',
+          payment_id: '699bfed713ce3dd51f2fc2ad',
+          cart_snapshot: {
+            thread_id: '785862166',
+            business_id: data.business_id,
+            items: [
+              {
+                product_ref: {
+                  source_chunk_id: 'product:ae24d3de-af23-4be2-9dcc-8609e6cbf498:1',
+                  source_file_id: 'https://amfacosmetics.com/pages/about-us',
+                },
+                name: 'Face Cleansing Foam (with Brush)',
+                unit_price_text: '15.0',
+                unit_price_amount: 15.0,
+                unit_price_currency: 'USDC',
+                qty: 1,
+                suggested_asset_ids: [],
+                line_total_amount: 15.0,
+              },
+            ],
+            summary: {
+              item_count: 1,
+              subtotal_amount: 15.0,
+              currency: 'USDC',
+            },
+            updated_at: '2026-02-23T07:16:36.837000',
+          },
+          email: 'thouheed.imaad@gmail.com',
+          address: 'Hollystown, Co. Dublin, D15 E7YN, Ireland',
+          country: 'Ireland',
+          amount: '15.0',
+          currency: null,
+          status: 'pending',
+          created_at: '2026-02-23T07:17:22.177000',
+          updated_at: '2026-02-23T07:17:22.177000',
+        },
+      ],
+    };
+  },
+
+  async updateOrderStatus(data: UpdateOrderStatusRequest): Promise<UpdateOrderStatusResponse> {
+    await delay(800);
+
+    console.log('Mock updateOrderStatus:', data.order_id);
+    return { success: true };
   },
 };
