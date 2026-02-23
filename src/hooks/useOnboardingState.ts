@@ -6,9 +6,10 @@ export interface OnboardingState {
   businessId: string | null;
   uploadBatchId: string | null;
   authMetadata: Record<string, unknown> | null;
+  telegramBotToken: string | null;
 }
 
-type OnboardingStep = 'login' | 'ingestion' | 'testing';
+type OnboardingStep = 'login' | 'ingestion' | 'testing' | 'orders';
 
 const STORAGE_KEY = 'onboarding_state';
 
@@ -27,6 +28,7 @@ const getStoredState = (): OnboardingState => {
     businessId: null,
     uploadBatchId: null,
     authMetadata: null,
+    telegramBotToken: null,
   };
 };
 
@@ -56,7 +58,10 @@ export const useOnboardingState = () => {
       return 'ingestion';
     }
     
-    // Has everything → show testing
+    // Has everything → check telegram_bot_token
+    if (state.telegramBotToken) {
+      return 'orders';
+    }
     return 'testing';
   }, [state]);
 
@@ -89,6 +94,13 @@ export const useOnboardingState = () => {
     }));
   }, []);
 
+  const setTelegramBotToken = useCallback((telegramBotToken: string) => {
+    setState(prev => ({
+      ...prev,
+      telegramBotToken,
+    }));
+  }, []);
+
   const logout = useCallback(() => {
     setState({
       userId: null,
@@ -96,6 +108,7 @@ export const useOnboardingState = () => {
       businessId: null,
       uploadBatchId: null,
       authMetadata: null,
+      telegramBotToken: null,
     });
   }, []);
 
@@ -107,6 +120,7 @@ export const useOnboardingState = () => {
     setLoginData,
     setUploadBatchId,
     setBusinessId,
+    setTelegramBotToken,
     logout,
     isLoggedIn,
   };
