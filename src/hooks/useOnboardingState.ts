@@ -70,13 +70,15 @@ export const useOnboardingState = () => {
     password: string;
     businessId?: string;
     authMetadata?: Record<string, unknown>;
+    telegramBotToken?: string;
   }) => {
     setState(prev => ({
       ...prev,
       userId: data.userId,
-      password: btoa(data.password), // Simple encoding for demo
+      password: btoa(data.password),
       businessId: data.businessId || prev.businessId,
       authMetadata: data.authMetadata || prev.authMetadata,
+      telegramBotToken: data.telegramBotToken || prev.telegramBotToken,
     }));
   }, []);
 
