@@ -61,7 +61,7 @@ export const ShopifyIngestionPage = ({ businessId, onSuccess }: ShopifyIngestion
           <div className="card-elevated mx-auto max-w-xl rounded-2xl border border-border p-2">
             <div className="flex items-center gap-2">
               <Input
-                type="url"
+                type="text"
                 placeholder="your-store.myshopify.com"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
